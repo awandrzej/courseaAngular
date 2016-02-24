@@ -14,8 +14,8 @@
     <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="styles/bootstrap-social.css" rel="stylesheet">
     <link href="styles/mystyles.css" rel="stylesheet">
-	
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -26,13 +26,34 @@
 <body>
 
     <div class="container">
-	<div class="row row-content" ng-controller="dishDetailController as dishDetailCtrl">
-            <div class="col-xs-12">
-                <p>Put the dish details here</p>
+      <div class="row row-content" ng-controller="dishDetailController as ddCtrl">
+
+     <div class="col-xs-12">
+
+            <h2 class="media-heading">{{dish.name}}
+                
+                <img class="media-object img-thumbnail" ng-src={{ddCtrl.dish.image}} alt="...">
+                <p>{{ddCtrl.dish.name}}
+                <span class="label label-danger">{{ddCtrl.dish.label}}</span>
+                <span class="badge">{{ddCtrl.dish.price | currency}}</span>
+                </h2>
+                sort by:<input type="text" name="order" ng-model="sortBy">
+                </p>
+                <p>{{ddCtrl.dish.description}}</p>
             </div>
             <div class="col-xs-9 col-xs-offset-1">
-                <p>Put the comments here</p>
+             <h2>Customer Comments:</h2>
+
+            <blockquote>
+             <li class="media" ng-repeat="disz in ddCtrl.dish.comments | orderBy:sortBy">
+              <p>{{disz.rating}} Stars</p>
+              <p>{{disz.comment}}</p>
+              <footer>author: <cite title="author">{{disz.author}}</cite>
+              <cite title="date">{{disz.date|date:short}}</cite>
+              </footer>
+              </blockquote>
             </div>
+        
         </div>
 
     </div>
@@ -40,9 +61,12 @@
     <script src="../bower_components/angular/angular.min.js"></script>
     <script>
 
+        this.order = "date";
         var app = angular.module('confusionApp',[]);
         
         app.controller('dishDetailController', function() {
+
+            //$scope.order; 
 
             var dish={
                           name:'Uthapizza',
